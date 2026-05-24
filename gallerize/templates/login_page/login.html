@@ -1,0 +1,97 @@
+{% extends 'gallerize/base.html' %}
+
+{% block title %}Sign In | Gallerize{% endblock %}
+
+{% block content %}
+<div class="min-h-[calc(100vh-12rem)] flex items-center justify-center relative overflow-hidden px-4 py-12">
+    
+    <!-- Tactile Background Ambient Accent Layer -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] bg-amber-800/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+    <!-- Authentic Form Studio Panel -->
+    <div class="w-full max-w-md bg-stone-100/90 border border-stone-300/80 backdrop-blur-xl p-8 sm:p-10 rounded-2xl shadow-xl hover:shadow-2xl z-10 relative transition-all duration-300">
+        
+        <!-- Premium Header Block -->
+        <div class="text-center mb-8">
+            <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-stone-900 uppercase">
+                Welcome Back<span class="text-amber-800">.</span>
+            </h1>
+            <p class="text-xs font-bold uppercase tracking-wider text-stone-400 mt-2">Sign in to your visual workspace</p>
+        </div>
+
+        <!-- Django Target Execution Container Form -->
+        <form method="POST" action="{% url 'login' %}" class="space-y-6">
+            {% csrf_token %}
+
+            <!-- Global Form Level Non-Field Errors Block -->
+            {% if form.non_field_errors %}
+                <div class="p-4 rounded-xl bg-amber-900/5 border border-amber-800/20 text-amber-900 text-xs font-semibold space-y-1 animate-slide-down">
+                    {% for error in form.non_field_errors %}
+                        <p class="flex items-center gap-1.5">
+                            <span class="inline-block w-1 h-1 rounded-full bg-amber-800"></span>
+                            {{ error }}
+                        </p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- A. Username Input Pipeline Group -->
+            <div class="space-y-2">
+                <label for="{{ form.username.id_for_label }}" class="block text-[11px] font-bold text-stone-500 uppercase tracking-wider">
+                    Username
+                </label>
+                <input type="text" 
+                       name="{{ form.username.html_name }}" 
+                       id="{{ form.username.id_for_label }}"
+                       maxlength="150"
+                       required
+                       class="w-full px-4 py-3 bg-white/70 border border-stone-300 rounded-xl text-sm text-stone-900 placeholder-stone-400 focus:outline-none focus:border-amber-800 focus:ring-4 focus:ring-amber-800/10 transition duration-200" 
+                       placeholder="Enter your artist profile handle">
+                
+                {% if form.username.errors %}
+                    <p class="text-xs font-semibold text-amber-800 mt-1 pl-1">{{ form.username.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <!-- B. Password Input Pipeline Group -->
+            <div class="space-y-2">
+                <label for="{{ form.password.id_for_label }}" class="block text-[11px] font-bold text-stone-500 uppercase tracking-wider">
+                    Password
+                </label>
+                <input type="password" 
+                       name="{{ form.password.html_name }}" 
+                       id="{{ form.password.id_for_label }}"
+                       required
+                       class="w-full px-4 py-3 bg-white/70 border border-stone-300 rounded-xl text-sm text-stone-900 placeholder-stone-400 focus:outline-none focus:border-amber-800 focus:ring-4 focus:ring-amber-800/10 transition duration-200" 
+                       placeholder="••••••••">
+                
+                {% if form.password.errors %}
+                    <p class="text-xs font-semibold text-amber-800 mt-1 pl-1">{{ form.password.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <!-- C. Action Submit Dispatcher Button -->
+            <button type="submit" class="w-full py-3.5 px-4 bg-stone-900 hover:bg-amber-800 active:bg-amber-900 text-stone-50 font-bold uppercase tracking-wider rounded-xl text-xs transition duration-200 shadow-md hover:shadow-lg active:scale-[0.98] focus:outline-none focus:ring-4 focus:ring-amber-800/20 cursor-pointer">
+                Enter Studio
+            </button>
+        </form>
+
+        <!-- Anchor Studio Linkage Footer Block -->
+        <div class="mt-8 pt-6 border-t border-stone-200 text-center space-y-2">
+            <p class="text-xs text-stone-400 font-medium">
+                Don't have an account? 
+                <a href="{% url 'signup' %}" class="text-stone-800 hover:text-amber-800 font-bold transition ml-1 underline underline-offset-4 decoration-stone-300 hover:decoration-amber-800">
+                    Create an account
+                </a>
+            </p>
+            <p class="text-xs text-stone-400 font-medium">
+                Return to home?
+                <a href="{% url 'landing' %}" class="text-stone-800 hover:text-amber-800 font-bold transition ml-1 underline underline-offset-4 decoration-stone-300 hover:decoration-amber-800">
+                    Click here
+                </a>
+            </p>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

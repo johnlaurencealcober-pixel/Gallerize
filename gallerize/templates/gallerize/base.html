@@ -1,0 +1,204 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Gallerize{% endblock %}</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.3s ease-out forwards',
+                        'slide-down': 'slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                    },
+                    keyframes: {
+                        fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+                        slideDown: { '0%': { transform: 'translateY(-10px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Smooth micro-interactions for links, buttons, and graphics */
+        a, button, img, svg { transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+        /* Premium custom scrollbar styling matching the warm canvas */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #e7e5e4; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
+    </style>
+</head>
+<!-- Base background tone -->
+<body class="bg-stone-200/40 text-stone-900 font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-amber-100 selection:text-amber-900 overflow-x-hidden">
+
+    <!-- 1. RESPONSIVE FLOATING NAVBAR -->
+    <nav class="sticky top-0 z-50 bg-stone-100/80 backdrop-blur-md border-b border-stone-300/60 transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Brand Logo Identity (Upscaled text size from text-xl to text-2xl) -->
+                <div class="flex-shrink-0 z-50">
+                    <a href="{% url 'album_list' %}" class="text-2xl font-black uppercase tracking-widest text-stone-900 hover:text-amber-800 focus:outline-none focus:ring-2 focus:ring-amber-800/20 rounded-lg p-1">
+                        Gallerize<span class="text-amber-700">.</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation Menu (Upscaled micro text-xs to crisp text-sm/font-semibold) -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="{% url 'album_list' %}" class="text-sm font-black uppercase tracking-wider text-stone-600 hover:text-stone-900 relative py-1 group {% if request.resolver_match.url_name == 'album_list' %}text-stone-900{% endif %}">
+                        Galleries
+                        <span class="absolute bottom-0 left-0 w-full h-[2px] bg-amber-800 scale-x-0 group-hover:scale-x-100 {% if request.resolver_match.url_name == 'album_list' %}scale-x-100{% endif %} transition-transform origin-left duration-300"></span>
+                    </a>
+                    <a href="{% url 'album_create' %}" class="text-sm font-black uppercase tracking-wider text-stone-600 hover:text-stone-900 relative py-1 group {% if request.resolver_match.url_name == 'album_create' %}text-stone-900{% endif %}">
+                        Studio Desk
+                        <span class="absolute bottom-0 left-0 w-full h-[2px] bg-amber-800 scale-x-0 group-hover:scale-x-100 {% if request.resolver_match.url_name == 'album_create' %}scale-x-100{% endif %} transition-transform origin-left duration-300"></span>
+                    </a>
+                    <a href="{% url 'photo_create' %}" class="text-sm font-black uppercase tracking-wider text-stone-600 hover:text-stone-900 relative py-1 group {% if request.resolver_match.url_name == 'photo_create' %}text-stone-900{% endif %}">
+                        Add Photo
+                        <span class="absolute bottom-0 left-0 w-full h-[2px] bg-amber-800 scale-x-0 group-hover:scale-x-100 {% if request.resolver_match.url_name == 'photo_create' %}scale-x-100{% endif %} transition-transform origin-left duration-300"></span>
+                    </a>
+                </div>
+
+                <!-- Desktop Identity Stack & Session Controls -->
+                <div class="hidden md:flex items-center space-x-5">
+                    {% if user.is_authenticated %}
+                        <div class="flex flex-col items-end text-right">
+                            <span class="text-sm font-bold text-stone-800">{{ user.username }}</span>
+                            <span class="text-[11px] uppercase font-bold tracking-wider text-stone-400">Creator</span>
+                        </div>
+                        <!-- Adjusted padding and size for prominent design layout button -->
+                        <form action="{% url 'logout' %}" method="post" class="inline">
+                            {% csrf_token %}
+                            <button type="submit" class="inline-flex items-center justify-center px-5 py-2.5 border border-stone-300 rounded-full text-xs font-black uppercase tracking-wider text-stone-600 bg-white/80 hover:bg-white hover:text-stone-900 shadow-xs hover:shadow-sm active:scale-95 cursor-pointer">
+                                Exit
+                            </button>
+                        </form>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="text-sm font-black uppercase tracking-wider text-stone-600 hover:text-stone-900 py-2 px-3">
+                            Sign In
+                        </a>
+                        <a href="{% url 'signup' %}" class="inline-flex items-center justify-center px-5 py-2.5 bg-stone-900 hover:bg-amber-800 text-stone-50 text-xs font-black uppercase tracking-wider rounded-full shadow-xs hover:shadow-md active:scale-95">
+                            Join Studio
+                        </a>
+                    {% endif %}
+                </div>
+
+                <!-- Mobile Hamburger Button Trigger -->
+                <div class="flex md:hidden z-50">
+                    <button id="mobile-menu-toggle" type="button" class="inline-flex items-center justify-center p-2 rounded-xl text-stone-600 hover:text-stone-900 hover:bg-stone-200/50 focus:outline-none focus:ring-2 focus:ring-amber-800/20" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Toggle primary menu</span>
+                        <svg id="hamburger-icon" class="block h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                        <svg id="close-icon" class="hidden h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Menu Dropdown Canvas (Upscaled layout font sizing to text-base) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-lg border-b border-stone-300/60 animate-slide-down">
+            <div class="px-4 pt-3 pb-6 space-y-3 shadow-inner">
+                <a href="{% url 'album_list' %}" class="block px-4 py-3.5 rounded-xl text-base font-black uppercase tracking-wider {% if request.resolver_match.url_name == 'album_list' %}bg-stone-200/60 text-amber-800{% else %}text-stone-600 hover:bg-stone-50{% endif %}">
+                    Galleries
+                </a>
+                <a href="{% url 'album_create' %}" class="block px-4 py-3.5 rounded-xl text-base font-black uppercase tracking-wider {% if request.resolver_match.url_name == 'album_create' %}bg-stone-200/60 text-amber-800{% else %}text-stone-600 hover:bg-stone-50{% endif %}">
+                    Studio Desk
+                </a>
+                <a href="{% url 'photo_create' %}" class="block px-4 py-3.5 rounded-xl text-base font-black uppercase tracking-wider {% if request.resolver_match.url_name == 'photo_create' %}bg-stone-200/60 text-amber-800{% else %}text-stone-600 hover:bg-stone-50{% endif %}">
+                    Add Photo
+                </a>
+                
+                <hr class="border-stone-200/60 my-2">
+                
+                {% if user.is_authenticated %}
+                    <div class="px-4 py-2 flex items-center justify-between">
+                        <div>
+                            <p class="text-base font-black text-stone-800">{{ user.username }}</p>
+                            <p class="text-xs uppercase font-bold text-stone-400">Signed In</p>
+                        </div>
+                    </div>
+                    <form action="{% url 'logout' %}" method="post" class="block w-full px-2">
+                        {% csrf_token %}
+                        <button type="submit" class="block w-full text-center py-3.5 border border-stone-300 rounded-xl text-sm font-black uppercase tracking-wider text-stone-600 bg-white hover:bg-stone-50 cursor-pointer">
+                            Exit Studio
+                        </button>
+                    </form>
+                {% else %}
+                    <div class="grid grid-cols-2 gap-3 pt-2 px-2">
+                        <a href="{% url 'login' %}" class="flex items-center justify-center px-4 py-3.5 border border-stone-300 rounded-xl text-sm font-black uppercase tracking-wider text-stone-600 bg-white hover:bg-stone-50">
+                            Sign In
+                        </a>
+                        <a href="{% url 'signup' %}" class="flex items-center justify-center px-4 py-3.5 bg-stone-900 hover:bg-amber-800 text-stone-50 text-sm font-black uppercase tracking-wider rounded-xl">
+                            Join Studio
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. DYNAMIC INJECTOR CONTAINER -->
+    <main class="flex-grow animate-fade-in focus:outline-none" id="main-content" tabindex="-1">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- 3. MINIMALIST EDITORIAL FOOTER (Enhanced textual presence for fine print structures) -->
+    <footer class="bg-stone-100 border-t border-stone-300/60 mt-auto">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
+            
+            <div class="flex items-center gap-2 text-center md:text-left">
+                <span class="text-base font-black uppercase tracking-widest text-stone-800">Gallerize</span>
+                <span class="text-sm text-stone-400 font-bold">&copy; {% now "Y" %} Visual Archive.</span>
+            </div>
+            
+            <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-black uppercase tracking-wider text-stone-400">
+                <span class="hover:text-stone-700 cursor-pointer transition-colors">Curation Rights</span>
+                <span class="hover:text-stone-700 cursor-pointer transition-colors">Index Blueprint</span>
+                <span class="hidden sm:inline text-stone-300">|</span>
+                <span class="text-stone-500 w-full sm:w-auto text-center sm:text-left">Built for Creators</span>
+            </div>
+            
+        </div>
+    </footer>
+
+    <!-- Mobile Navigation Menu Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleButton = document.getElementById('mobile-menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const hamburgerIcon = document.getElementById('hamburger-icon');
+            const closeIcon = document.getElementById('close-icon');
+
+            toggleButton.addEventListener('click', () => {
+                const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
+                
+                toggleButton.setAttribute('aria-expanded', !isExpanded);
+                mobileMenu.classList.toggle('hidden');
+                
+                hamburgerIcon.classList.toggle('hidden');
+                closeIcon.classList.toggle('hidden');
+            });
+
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 768) {
+                    mobileMenu.classList.add('hidden');
+                    toggleButton.setAttribute('aria-expanded', 'false');
+                    hamburgerIcon.classList.remove('hidden');
+                    closeIcon.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

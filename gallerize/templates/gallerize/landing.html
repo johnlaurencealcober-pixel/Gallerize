@@ -1,0 +1,144 @@
+{% extends 'gallerize/base.html' %}
+
+{% block title %}Gallerize | A Sanctuary for Your Imagery{% endblock %}
+
+{% block content %}
+<div class="relative overflow-hidden">
+    
+    <!-- =========================================================================
+         1. HERO SECTION
+         ========================================================================= -->
+    <section class="min-h-[90vh] flex flex-col items-center justify-center relative px-4 sm:px-6 lg:px-8 pt-24 pb-16">
+        
+        <!-- Subtle Ambient Canvas Glows -->
+        <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-amber-800/5 rounded-full blur-[140px] pointer-events-none"></div>
+
+        <!-- Hero Typography Container -->
+        <div class="max-w-4xl text-center z-10 space-y-6 mb-12">
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black uppercase tracking-tight text-stone-900 leading-[1.05]">
+                Elevate your archive,<br />
+                <span class="text-amber-800 lowercase font-serif italic normal-case tracking-normal block mt-1 sm:inline sm:mt-0">
+                    frame by curated frame.
+                </span>
+            </h1>
+            
+            <p class="text-xs sm:text-sm font-semibold uppercase tracking-widest text-stone-500 max-w-xl mx-auto leading-relaxed">
+                A digital exhibition room for mindful photographers. Escape disorganized folders and let your visual stories breathe in beautifully tailored collections.
+            </p>
+            
+            <!-- Dynamic Action Hub -->
+            <div class="pt-4 flex flex-col sm:flex-row justify-center items-center gap-4 max-w-md mx-auto">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'album_list' %}" class="w-full sm:w-auto flex-1 px-8 py-4 bg-stone-900 hover:bg-amber-800 text-stone-50 font-bold uppercase tracking-wider rounded-xl text-xs transition duration-200 shadow-md hover:shadow-lg active:scale-95 text-center cursor-pointer">
+                        Enter Your Galleries
+                    </a>
+                {% else %}
+                    <a href="{% url 'signup' %}" class="w-full sm:w-auto flex-1 px-8 py-4 bg-stone-900 hover:bg-amber-800 text-stone-50 font-bold uppercase tracking-wider rounded-xl text-xs transition duration-200 shadow-md hover:shadow-lg active:scale-95 text-center cursor-pointer">
+                        Begin Curating
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Contextual Hero Imagery Showcase Pane -->
+        <div class="w-full max-w-5xl mx-auto z-10 px-4 sm:px-6 opacity-90 hover:opacity-100 transition duration-500">
+            <div class="bg-stone-100 border border-stone-300/80 p-3 sm:p-4 rounded-2xl shadow-xl">
+                <div class="aspect-video w-full rounded-xl overflow-hidden bg-stone-200 relative group">
+                    <img src="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcRCvKgy9TaD5yVxP12ChiXv8XDVNQM7MwePJwG7jcQzC4WYapqDP5YuiujxKUig2QBJSjiMSxqeCQ7iKPI" 
+                         alt="Clean minimalist photography studio wall" 
+                         class="w-full h-full object-cover grayscale-[30%] contrast-[1.05] group-hover:scale-105 transition duration-700 ease-out" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-stone-950/40 via-transparent to-transparent flex items-end p-6">
+                        <span class="text-[10px] tracking-widest font-bold text-white uppercase bg-stone-900/40 backdrop-blur-xs px-3 py-1.5 rounded-md border border-white/10">
+                            Exhibition Workspace Preview
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================================================================
+         2. FEATURES & CAPABILITIES GRID SECTION
+         ========================================================================= -->
+    <section id="features" class="py-28 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-stone-300/60">
+        
+        <div class="text-center max-w-2xl mx-auto mb-20 space-y-3">
+            <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-tight text-stone-900">
+                The Curatorial Philosophy
+            </h2>
+            <div class="w-12 h-[2px] bg-amber-800 mx-auto"></div>
+            <p class="text-stone-500 font-medium text-xs uppercase tracking-wider pt-2">
+                Intentionally designed utilities to give your work the clean, structural presentation it deserves.
+            </p>
+        </div>
+
+        <!-- Capability Matrix Cards Layout Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Intentional Feature Block 01 -->
+            <div class="group bg-stone-100/40 border border-stone-300/40 p-8 rounded-2xl transition duration-300 hover:border-stone-400/60 hover:bg-white hover:shadow-lg">
+                <div class="w-full aspect-4/3 mb-6 bg-stone-200 rounded-xl overflow-hidden border border-stone-300/30">
+                    <img src="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcSd718vKySAfx749A4rLXk9KQPtQioIC-U-e85cp5eGF1JUtfjmY4_glfg2e5ZrfIxRBH0BdFGtTz6BTbI" 
+                         alt="Warm elegant textile texture background" 
+                         class="w-full h-full object-cover mix-blend-multiply opacity-85 group-hover:scale-105 transition duration-500" />
+                </div>
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="text-xs font-serif italic text-amber-800">01 /</span>
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-stone-900">Pure Fidelity Storage</h3>
+                </div>
+                <p class="text-stone-500 text-xs font-medium leading-relaxed pl-7">
+                    No harsh compressions, no watered-down hues. Safeguard the original raw definition, dynamic range, and texture of every capture.
+                </p>
+            </div>
+
+            <!-- Intentional Feature Block 02 -->
+            <div class="group bg-stone-100/40 border border-stone-300/40 p-8 rounded-2xl transition duration-300 hover:border-stone-400/60 hover:bg-white hover:shadow-lg">
+                <div class="w-full aspect-4/3 mb-6 bg-stone-100 rounded-xl flex items-center justify-center border border-stone-300/40 relative overflow-hidden">
+                    <!-- Elegant Minimal CSS Wireframe Illustration mimicking an album canvas -->
+                    <div class="w-2/3 h-2/3 border border-stone-300 rounded-lg p-3 flex flex-col justify-between bg-white/50 z-10 transition duration-500 group-hover:border-amber-800/40">
+                        <div class="flex gap-1.5">
+                            <div class="w-2 h-2 rounded-full bg-stone-300"></div>
+                            <div class="w-8 h-2 rounded bg-stone-200"></div>
+                        </div>
+                        <div class="w-full h-12 bg-stone-100 rounded border border-stone-200 flex items-center justify-center">
+                            <div class="w-4 h-4 border border-dashed border-stone-400 rounded-xs"></div>
+                        </div>
+                        <div class="w-1/2 h-2 rounded bg-stone-200"></div>
+                    </div>
+                    <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-stone-200/50 rounded-full blur-md"></div>
+                </div>
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="text-xs font-serif italic text-amber-800">02 /</span>
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-stone-900">Tailored Series Indexing</h3>
+                </div>
+                <p class="text-stone-500 text-xs font-medium leading-relaxed pl-7">
+                    Group your photography by stories, projects, or mediums. Build intuitive architectural indices that make sorting an absolute pleasure.
+                </p>
+            </div>
+
+            <!-- Intentional Feature Block 03 -->
+            <div class="group bg-stone-100/40 border border-stone-300/40 p-8 rounded-2xl transition duration-300 hover:border-stone-400/60 hover:bg-white hover:shadow-lg">
+                <div class="w-full aspect-4/3 mb-6 bg-stone-100 rounded-xl flex items-center justify-center border border-stone-300/40 relative overflow-hidden px-4">
+                    <!-- Responsive viewport outline wireframe layout simulation -->
+                    <div class="w-full border border-stone-300 rounded-t-lg bg-white h-24 pt-1 px-1.5 space-y-1.5 transition duration-500 group-hover:border-stone-400">
+                        <div class="h-1.5 w-full bg-stone-100 rounded flex justify-between px-1 items-center"><div class="w-2 h-1 bg-stone-300 rounded-xs"></div><div class="w-1 h-1 bg-stone-300 rounded-full"></div></div>
+                        <div class="grid grid-cols-3 gap-1">
+                            <div class="aspect-square bg-stone-100 rounded border border-stone-200"></div>
+                            <div class="aspect-square bg-stone-200/60 rounded border border-stone-200"></div>
+                            <div class="aspect-square bg-stone-100 rounded border border-stone-200"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="text-xs font-serif italic text-amber-800">03 /</span>
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-stone-900">Balanced Visual Scale</h3>
+                </div>
+                <p class="text-stone-500 text-xs font-medium leading-relaxed pl-7">
+                    An interface built entirely to adapt. Your presentation viewports scale fluidly, treating your compositions with absolute graphic respect.
+                </p>
+            </div>
+
+        </div>
+    </section>
+</div>
+{% endblock %}

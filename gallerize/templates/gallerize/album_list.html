@@ -1,0 +1,100 @@
+{% extends 'gallerize/base.html' %}
+{% load static %}
+
+{% block title %}All Albums | Gallerize{% endblock %}
+
+{% block content %}
+<!-- Main Content Area Grid Container Alignment -->
+<div class="min-h-screen bg-[#FDFBF7] text-[#1C1A17] max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 relative z-10 antialiased">
+    
+    <!-- Editorial Studio Header Segment -->
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between border-b border-[#EBE6DD] pb-8 mb-12">
+        <div class="space-y-3">
+            <!-- Premium Editorial Microband -->
+            <div class="inline-flex items-center space-x-2">
+                <span class="w-1.5 h-1.5 bg-[#D4A373] rounded-full"></span>
+                <span class="text-[10px] font-bold uppercase tracking-[0.25em] text-[#706B63]">Studio Collection</span>
+            </div>
+            <!-- Title Header Inspired by Landing Design Hierarchy -->
+            <h1 class="text-4xl sm:text-5xl font-black uppercase tracking-tight text-[#1C1A17] font-serif">
+                The <span class="italic font-normal text-[#D4A373]">Archive</span>
+            </h1>
+            <p class="text-xs font-medium tracking-wide text-[#706B63] max-w-xl leading-relaxed">
+                A seamless, meticulously cataloged registry of your permanent music library collection.
+            </p>
+        </div>
+        
+        <!-- Call to Action Pipeline Node -->
+        <div class="mt-6 md:mt-0">
+            <a href="{% url 'album_create' %}" class="inline-flex items-center justify-center rounded-sm bg-[#1C1A17] px-6 py-3.5 text-[10px] font-bold uppercase tracking-[0.18em] text-[#FDFBF7] hover:bg-[#D4A373] hover:text-[#1C1A17] active:scale-[0.98] transition-all duration-300 shadow-sm">
+                Add New Entry
+            </a>
+        </div>
+    </div>
+
+    <!-- Gallery Grid Processing Architecture -->
+    {% if albums %}
+        <div class="grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {% for album in albums %}
+                <!-- Media Card Node with Micro-Borders and Cream Canvas Panel Transitions -->
+                <div class="group relative flex flex-col bg-[#F7F4EB] border border-[#EBE6DD] p-4 rounded-xs transition-all duration-500 ease-out hover:bg-[#F3EFE3] hover:border-[#D9D2C4] hover:-translate-y-1">
+                    
+                    <!-- Cover Art Framed Proportions -->
+                    <div class="aspect-square w-full bg-[#EBE6DD] relative overflow-hidden shadow-xs border border-[#E0D9CE] rounded-xs">
+                        {% if album.cover_image %}
+                            <img src="{{ album.cover_image.url }}" 
+                                 alt="{{ album.title }} Artwork Cover" 
+                                 class="h-full w-full object-cover object-center scale-[1.01] group-hover:scale-105 transition-all duration-700 ease-out grayscale-[10%] group-hover:grayscale-0">
+                        {% else %}
+                            <!-- Minimalist Matte Signature Icon Placeholder -->
+                            <div class="flex h-full w-full items-center justify-center bg-[#EBE6DD] text-[#A39C90]">
+                                <svg class="h-10 w-10 stroke-[1]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 9l10.5-3m0 0v15m0-15l-10.5 3m10.5-3V3.75m-10.5 6.375V19.5M3.75 19.5h16.5M12 4.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM18 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                </svg>
+                            </div>
+                        {% endif %}
+                        
+                        <!-- Smooth Overlay Veil Filter -->
+                        <div class="absolute inset-0 bg-[#1C1A17]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                    </div>
+
+                    <!-- Label Component Layout Block -->
+                    <div class="flex flex-1 flex-col pt-5 pb-1">
+                        <h3 class="text-sm font-extrabold uppercase tracking-wider text-[#1C1A17] truncate group-hover:text-[#D4A373] transition-colors duration-300">
+                            <a href="{% url 'album_detail' album.pk %}" class="block">
+                                <span aria-hidden="true" class="absolute inset-0"></span>
+                                {{ album.title }}
+                            </a>
+                        </h3>
+                        
+                        <!-- Curated Metadata Footprint -->
+                        <div class="flex flex-col pt-2 mt-auto border-t border-[#EBE6DD]/60">
+                            <div class="flex items-center justify-between text-[9px] font-bold uppercase tracking-[0.15em] text-[#918A7F]">
+                                <span>Catalog Date</span>
+                                <span class="text-[#1C1A17] font-medium tracking-normal">{{ album.release_date|date:"Y" }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <!-- Studio Empty Slate Layout Design -->
+        <div class="text-center border border-[#EBE6DD] py-24 px-6 bg-[#F7F4EB] max-w-xl mx-auto my-12 rounded-sm shadow-xs">
+            <svg class="mx-auto h-8 w-8 text-[#A39C90] stroke-[1]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+            </svg>
+            <h3 class="mt-4 text-xs font-extrabold uppercase tracking-[0.2em] text-[#1C1A17]">Archive Unpopulated</h3>
+            <p class="mt-2 text-[11px] text-[#706B63] max-w-xs mx-auto leading-relaxed">
+                No volumes have been structured into the catalog layout template engine yet.
+            </p>
+            <div class="mt-6">
+                <a href="{% url 'album_create' %}" class="inline-flex items-center justify-center bg-[#1C1A17] px-5 py-3 text-[10px] font-bold uppercase tracking-[0.15em] text-[#FDFBF7] hover:bg-[#D4A373] hover:text-[#1C1A17] transition-all duration-300">
+                    Initialize Album
+                </a>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

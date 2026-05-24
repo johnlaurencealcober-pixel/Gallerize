@@ -1,0 +1,149 @@
+{% extends 'gallerize/base.html' %}
+
+{% block title %}Get Started | Gallerize{% endblock %}
+
+{% block content %}
+<!-- Main Content Area Container Alignment -->
+<div class="min-h-[85vh] flex items-center justify-center relative px-4 py-16 overflow-hidden">
+    
+    <!-- Subtle Layered Warm Amber Canvas Ambient Glows -->
+    <div class="absolute top-1/4 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] bg-amber-800/5 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute bottom-1/4 right-1/3 translate-x-1/2 translate-y-1/2 w-[350px] h-[350px] bg-stone-400/15 rounded-full blur-[100px] pointer-events-none"></div>
+
+    <!-- Editorial Form Card Panel Base Anchor -->
+    <div class="w-full max-w-md bg-stone-100/60 border border-stone-300/60 backdrop-blur-xl p-8 sm:p-10 rounded-2xl shadow-xl z-10 relative">
+        
+        <!-- Header Typography Segment -->
+        <div class="text-center mb-8 space-y-2">
+            <h1 class="text-2xl sm:text-3xl font-black uppercase tracking-tight text-stone-900">
+                Begin Curating
+            </h1>
+            <div class="w-8 h-[2px] bg-amber-800 mx-auto my-1"></div>
+            <p class="text-xs font-semibold uppercase tracking-wider text-stone-500">
+                Create an account to frame your collection.
+            </p>
+        </div>
+
+        <!-- System Architecture Registration Form Pipeline -->
+        <form method="POST" action="{% url 'signup' %}" class="space-y-5" novalidate>
+            {% csrf_token %}
+
+            <!-- Form Validation Global Interruption Block -->
+            {% if form.non_field_errors %}
+                <div class="p-4 rounded-xl bg-amber-900/5 border border-amber-800/20 text-amber-900 text-xs font-medium space-y-1.5 shadow-xs animate-fade-in">
+                    <div class="flex items-center space-x-2 mb-1">
+                        <svg class="h-4 w-4 text-amber-800 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 1 1 1.063 1.06l-.041.02a.75.75 0 0 1-1.062-1.06Zm0 6.25.041-.02a.75.75 0 1 1 1.063 1.06l-.041.02a.75.75 0 0 1-1.062-1.06ZM12 16.5c0-1-.177-1.954-.5-2.83M12 4.5c4.756 0 8.773 3.16 10.03 7.5A10.024 10.024 0 0 1 12 21.75c-4.756 0-8.773-3.16-10.03-7.5A10.024 10.024 0 0 1 12 4.5Z" />
+                        </svg>
+                        <span class="font-bold tracking-wider uppercase text-[10px]">Registration Discrepancy</span>
+                    </div>
+                    {% for error in form.non_field_errors %}
+                        <p class="leading-relaxed text-stone-600">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Form Entry Component Node: Username -->
+            <div class="space-y-1.5">
+                <label for="{{ form.username.id_for_label }}" class="flex justify-between text-[10px] font-bold uppercase tracking-widest {% if form.username.errors %}text-amber-800{% else %}text-stone-500{% endif %}">
+                    <span>Username Studio Label</span>
+                </label>
+                <input type="text" 
+                       name="{{ form.username.html_name }}" 
+                       id="{{ form.username.id_for_label }}"
+                       value="{{ form.username.value|default:'' }}"
+                       maxlength="150"
+                       required
+                       class="w-full px-4 py-2.5 bg-white border rounded-xl text-xs font-medium text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 transition duration-200 {% if form.username.errors %}border-amber-800/60 focus:border-amber-800 focus:ring-amber-800/10{% else %}border-stone-300 focus:border-stone-900 focus:ring-stone-900/5{% endif %}" 
+                       placeholder="Choose an identification handle">
+                
+                {% if form.username.errors %}
+                    <div class="space-y-0.5 mt-1 text-[11px] text-amber-800 font-medium">
+                        {% for error in form.username.errors %}
+                            <p class="flex items-center gap-1"><span class="text-amber-800/60">•</span> {{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Form Entry Component Node: Email -->
+            <div class="space-y-1.5">
+                <label for="{{ form.email.id_for_label }}" class="flex justify-between text-[10px] font-bold uppercase tracking-widest {% if form.email.errors %}text-amber-800{% else %}text-stone-500{% endif %}">
+                    <span>Email Address</span>
+                </label>
+                <input type="email" 
+                       name="{{ form.email.html_name }}" 
+                       id="{{ form.email.id_for_label }}"
+                       value="{{ form.email.value|default:'' }}"
+                       required
+                       class="w-full px-4 py-2.5 bg-white border rounded-xl text-xs font-medium text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 transition duration-200 {% if form.email.errors %}border-amber-800/60 focus:border-amber-800 focus:ring-amber-800/10{% else %}border-stone-300 focus:border-stone-900 focus:ring-stone-900/5{% endif %}" 
+                       placeholder="your.archive@domain.com">
+                
+                {% if form.email.errors %}
+                    <div class="space-y-0.5 mt-1 text-[11px] text-amber-800 font-medium">
+                        {% for error in form.email.errors %}
+                            <p class="flex items-center gap-1"><span class="text-amber-800/60">•</span> {{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Form Entry Component Node: Password -->
+            <div class="space-y-1.5">
+                <label for="{{ form.password1.id_for_label }}" class="flex justify-between text-[10px] font-bold uppercase tracking-widest {% if form.password1.errors %}text-amber-800{% else %}text-stone-500{% endif %}">
+                    <span>Password Keys</span>
+                </label>
+                <input type="password" 
+                       name="{{ form.password1.html_name }}" 
+                       id="{{ form.password1.id_for_label }}"
+                       required
+                       class="w-full px-4 py-2.5 bg-white border rounded-xl text-xs font-medium text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 transition duration-200 {% if form.password1.errors %}border-amber-800/60 focus:border-amber-800 focus:ring-amber-800/10{% else %}border-stone-300 focus:border-stone-900 focus:ring-stone-900/5{% endif %}" 
+                       placeholder="••••••••••••">
+                
+                {% if form.password1.errors %}
+                    <div class="space-y-0.5 mt-1 text-[11px] text-amber-800 font-medium leading-relaxed">
+                        {% for error in form.password1.errors %}
+                            <p class="flex items-start gap-1"><span class="text-amber-800/60 mt-0.5">•</span> <span>{{ error }}</span></p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Form Entry Component Node: Confirm Password -->
+            <div class="space-y-1.5">
+                <label for="{{ form.password2.id_for_label }}" class="flex justify-between text-[10px] font-bold uppercase tracking-widest {% if form.password2.errors %}text-amber-800{% else %}text-stone-500{% endif %}">
+                    <span>Confirm Security Keys</span>
+                </label>
+                <input type="password" 
+                       name="{{ form.password2.html_name }}" 
+                       id="{{ form.password2.id_for_label }}"
+                       required
+                       class="w-full px-4 py-2.5 bg-white border rounded-xl text-xs font-medium text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 transition duration-200 {% if form.password2.errors %}border-amber-800/60 focus:border-amber-800 focus:ring-amber-800/10{% else %}border-stone-300 focus:border-stone-900 focus:ring-stone-900/5{% endif %}" 
+                       placeholder="••••••••••••">
+                
+                {% if form.password2.errors %}
+                    <div class="space-y-0.5 mt-1 text-[11px] text-amber-800 font-medium">
+                        {% for error in form.password2.errors %}
+                            <p class="flex items-center gap-1"><span class="text-amber-800/60">•</span> {{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Execution Pipeline Form Action Submission Control -->
+            <button type="submit" class="w-full mt-4 py-3.5 px-4 bg-stone-900 hover:bg-amber-800 text-stone-50 font-bold uppercase tracking-wider rounded-xl text-xs transition duration-200 shadow-md hover:shadow-lg active:scale-95 cursor-pointer text-center">
+                Create Studio Account
+            </button>
+        </form>
+
+        <!-- Relational Redirect Auxiliary Link Frame -->
+        <div class="mt-8 pt-6 border-t border-stone-300/60 text-center">
+            <p class="text-xs font-medium text-stone-500">
+                Already registered in the studio? 
+                <a href="{% url 'login' %}" class="text-amber-800 hover:text-stone-900 font-bold ml-1 transition duration-150 decoration-dotted underline underline-offset-4">Sign in here</a>
+            </p>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
